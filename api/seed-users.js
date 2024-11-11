@@ -1,5 +1,5 @@
-
-import { SEEDusers } from '../src/services/seedUsers';
+// pages/api/seed-users.js
+import { SEEDusers } from './seedUsers';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {

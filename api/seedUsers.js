@@ -38,6 +38,7 @@ export async function SEEDusers({name, email, password}){
         return Response.json({message: 'User seeded sucessfully'})
     } catch(error){
         await sql`ROLLBACK`;
+        console.error('Error in seed users', error)
         return Response.json({error}, {status: 500});
     }
 }
