@@ -1,5 +1,8 @@
+
 import Link from 'next/link'
 import React from 'react'
+import MenuItems from '../pures/MenuItems'
+import Image from 'next/image'
 
 const SideNav = () => {
   return (
@@ -8,12 +11,12 @@ const SideNav = () => {
         className="mb-2 flex h-20 items-end justify-start rounded-md bg-blue-600 p-4 md:h-40"
         href="/"
       >
-        <div className="w-32 text-white md:w-40">
-          
+        <div className="w-32 text-white md:w-40 pd-0 items-center">
+        <Image width={500} height={400} alt='TaskApp-logo' quality={50} src='/TaskApp-logo.PNG' ></Image>
         </div>
       </Link>
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-        
+        <MenuItems/>
         <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
         <form>
           <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">

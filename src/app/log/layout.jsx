@@ -1,10 +1,10 @@
-import SideNav from "../ui/components/SideNav";
+import SideNav from "../../ui/components/SideNav";
 
-export default function Layout({children}) {
+export default function DashboardLayout({children}) {
     return (
-        <section>
-            <SideNav/>
-            {children}
+        <section className="flex flex-row w-full">
+            <SideNav className='w-80'/>
+            <section>{children}</section>
         </section>
     );
 }
