@@ -3,30 +3,30 @@ import React from "react";
 
 //Material MUI
 //import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
 //import AddTaskIcon from "@mui/icons-material/AddTask";
 //import SettingsIcon from "@mui/icons-material/Settings";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const getIcon = (icon) => {
   switch (icon) {
-    case "home":
-      return <HomeIcon />;
     case "profile":
       return <PeopleAltIcon/>;
+    case "task":
+      return <TaskAltIcon/>;
     case "about":
       return <LiveHelpIcon/>;
     default:
-      return <HomeIcon />;
+      return <PeopleAltIcon />;
   }
 };
 
 const list  =[
-        { text: 'Dashboard', path: '/log', icon: 'home'},
-        { text: 'Profile', path: '/log/profile', icon: 'profile'},
+        { text: 'Profile', path: '/log', icon: 'profile'},
+        { text: 'Tasks', path: '/log/tasks', icon: 'task'},
         { text: 'About', path: '/log/about', icon: 'about' }
 ];
 

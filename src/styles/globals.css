@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 /* Global Reset */
+
 *,
 *::before,
 *::after {
@@ -10,7 +11,7 @@
   box-sizing: border-box;
 }
 
-html, body {
+body {
   font-family: 'Arial', sans-serif; /* O cualquier fuente base que prefieras */
   line-height: 1.5;
 }

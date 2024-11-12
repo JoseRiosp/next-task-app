@@ -1,5 +1,5 @@
 export default function TasksPage() {
     return (
-        <div></div>
+        <div>Task Page</div>
     );
 }

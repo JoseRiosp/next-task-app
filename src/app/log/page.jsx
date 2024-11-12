@@ -1,8 +1,10 @@
+import ProfilePag from "../../ui/components/ProfilePag";
 
-export default function DashboardPage() {
+
+export default function ProfilePage() {
     return (
         <div>
-        <h1>Dashboard Page</h1>
+            <ProfilePag/>
         </div>
     );
 }
