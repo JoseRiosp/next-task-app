@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 //import { seedUsers } from '../../services/route';
@@ -40,17 +40,19 @@ export default function RegisterPage() {
                 .required('You must accept the terms and conditions')
         }
     )
-    const [users, setUsers] = useState([])
-
 
    async function onSubmitForm(values){
+    console.log(values.username)
+    const name= values.username;
+    const email= values.email;
+    const password = values.password;
     try{
         const response= await axios.post('/api/seed-users',{
-            name: values.username,
-            email: values.email,
-            password: values.password
+            name,
+            email,
+            password
         });
-        console.log(response.data)}
+        console.log(response.data.message)} //'TODO: Redirigir a Dashboard (o Profile) si usuario creado
         catch (error){
         console.error('Error posting users:', error)
     } };
@@ -68,7 +70,7 @@ export default function RegisterPage() {
         initialValues={initialValues}
         onSubmit={onSubmitForm}
         validationSchema={registerSchema}>
-                {({ values, touched, errors, isSubmitting, handleSubmit }) => {
+                {({ touched, errors, isSubmitting }) => {
             return <Form>
         <div>
             <label htmlFor="username">Your username</label>

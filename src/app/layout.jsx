@@ -1,4 +1,4 @@
-
+import '../styles/globals.css'
 import {montserrat} from './fonts/fonts'
 
 export default function RootLayout({children}) {
