@@ -1,4 +1,5 @@
 import { sql } from "@vercel/postgres";
+import bcrypt from 'bcryptjs';
 
  async function fetchUserTables(name, email, password){
 
@@ -17,19 +18,20 @@ import { sql } from "@vercel/postgres";
     await sql`CREATE TABLE IF NOT EXISTS
         users(
         token UUID DEFAULT uuid_generate_v4(),
-        name VARCHAR(100) NOT NULL,
+        name VARCHAR(100) UNIQUE NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
-        password TEXT NOT NULL,
+        password VARCHAR NOT NULL,
         role TEXT NOT NULL DEFAULT 'USER');
         `;
         //To find existing users:
-    const existingUser = await sql`SELECT name FROM users WHERE email = ${email}`;
+        const existingUser = await sql`SELECT name FROM users WHERE email = ${email}`;
     if (existingUser.rowCount === 0){
-
+    
+        const hashPassword = await bcrypt.hash(password, 10); //Encrypt password
     await sql`
             INSERT INTO users(token, name, email, password, role)
-            VALUES(uuid_generate_v4(), ${name}, ${email}, ${password}, 'USER' )
-            ON CONFLICT (email) DO NOTHING;`;
+            VALUES(uuid_generate_v4(), ${name}, ${email}, ${hashPassword}, 'USER' )
+            ON CONFLICT (name) DO NOTHING;`;
             console.log('User created sucessfully'); //to backend
             return {message: 'User created sucessfully'}
         } else {
@@ -40,7 +42,7 @@ import { sql } from "@vercel/postgres";
 
 }
 
-export async function SEEDusers({name, email, password}){
+export default async function SEEDusers({name, email, password}){
     if((!name || !email || !password)){
         return Response.json({error: 'Missing user data in SEEDusers function'})
     }

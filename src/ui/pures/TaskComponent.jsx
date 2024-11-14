@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { levels } from "../../scripts/levels.enum";
+import '../../styles/custom-bootstrap.scss'
 
 //Importamos la hoja de estilos
 //import '../../styles/task.scss'
@@ -18,19 +19,19 @@ const TaskComponent = ({ task, manageTask }) => {
       case levels.NORMAL:
         return ( //"FIXME:" fix bootstrap badges"
           <h6 className="mb-0">
-            <span className="badge badge-primary">{task.level}</span>
+            <span className="badge text-bg-primary">{task.level}</span>
           </h6>
         );
       case levels.URGENTE:
         return (
           <h6 className="mb-0">
-            <span className="badge badge-warning">{task.level}</span>
+            <span className="badge text-bg-danger">{task.level}</span>
           </h6>
         );
       case levels.BLOCKING:
         return (
           <h6 className="mb-0">
-            <span className="badge badge-danger">{task.level}</span>
+            <span className="badge text-bg-warning">{task.level}</span>
           </h6>
         );
       default:
@@ -42,14 +43,14 @@ const TaskComponent = ({ task, manageTask }) => {
     if (task.completed) {
       return (
         <i onClick={()=>manageTask(task, "complete")}
-          className="bi-toggle-on task-action icon-badge"
+          className="bi-toggle-on icon-badge"
           style={{ color: "green", fontWeight: "bold" }}
         ></i>
       );
     } else {
       return (
         <i onClick={()=>manageTask(task, "complete")}
-          className="bi-toggle-off task-action icon-badge"
+          className="bi-toggle-off icon-badge"
           style={{ color: "grey", fontWeight: "bold" }}
         ></i>
       );
@@ -61,12 +62,12 @@ const TaskComponent = ({ task, manageTask }) => {
   const taskPending =['text-sky-500']
 
   return (
-    <tr className={`border border-2 m-0 bg-white shadow rounded-lg pt-2 pb-2 flex flex-grow ${task.completed ? taskCompleted : taskPending}`}>
-      <th className="flex-grow" >
+    <tr className={`border border-2 m-0 bg-white shadow-lg rounded-lg pt-2 pb-2 flex flex-grow ${task.completed ? taskCompleted : taskPending}`}>
+      <th className="flex-grow justify-center items-center flex hover:cursor-default" >
         <span style={{fontSize: "12pt", lineHeight:"1.2"}}>{task.name}</span>
       </th>
-      <td className="w-5 leading-2 flex-grow">
-        <span style={{fontSize: "11pt"}}>{task.description}</span>
+      <td className="flex w-3 leading-2 flex-grow hover:cursor-default">
+        <span style={{fontSize: "10pt"}}>{task.description}</span>
       </td>
       <td className="align-middle flex-grow text-center" style={{padding: "12px"}}>{taskLevelBadge()}</td>
       <td className="align-middle flex flex-grow items-center justify-center text-center hover:cursor-pointer gap-3 ">

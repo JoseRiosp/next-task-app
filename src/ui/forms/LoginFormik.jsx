@@ -4,47 +4,44 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 //import { useNavigate } from "react-router-dom";
 import { Button, TextField } from "@mui/material";
-
+import axios from "axios";
 
 //Create an scheme with Yup
 const loginSchema = Yup.object().shape({
-  username: Yup.string().required("Username is required"), //TODO: Poner el min y max de letras del username
+  username: Yup.string().required("Username is required"), //"TODO:" Poner el min y max de letras del username
   password: Yup.string().required("Password is required"),
 });
 
-const LoginFormik = () => {
-
+const LoginFormik = ({onAuthenticate}) => {
   const initialCredentials = {
     username: "",
     password: "",
   };
-
-  /*async function onSubmitForm(values) {
-    await new Promise((r) => setTimeout(r, 800));
-    alert(JSON.stringify(values, null, 2));
-    localStorage.setItem("credentials", values);
-    navigate('/');
-  }*/
-
-/*const authUser = async (values)=>{
-        login(values.email, values.password)
-        .then((response)=>{
-            if(response.data.token){
-                alert(JSON.stringify('authorized:',response.data.token));
-                sessionStorage.setItem('token', response.data.token);
-            } else {
-                sessionStorage.removeItem('token');
-                throw new Error('Failed POST method, no token')}
-        })
-        .catch((error)=>{
-            alert('error:',error);
-            sessionStorage.removeItem('token');
-        })
-        .finally(()=>{
-            console.log('Login finished');
-            navigate('/')
-        })
-    }*/
+  async function authUser(values){
+    console.log(values.password);
+    const crudName= values.username;
+    //require body 
+    const name = crudName.toLowerCase();
+    const password = values.password;
+    try{
+        const response = await axios.post('/api/userAPI-handler.js', {
+          name,
+          password,
+          action: 'authenticate'
+    });
+    console.log(response.data.message);
+    console.log(response.status)
+        if(response.status===200){
+          onAuthenticate(200);
+        }else if (response.status===401){
+          alert('user not found');
+          onAuthenticate(401);
+        }
+      }
+    catch(error){
+      console.log('Error during authentification', error.response);
+    }
+  };
 
   return (
     <div>
@@ -53,30 +50,32 @@ const LoginFormik = () => {
         validationSchema={loginSchema} //from Yup
         onSubmit={authUser}
       >
-        {({ values, touched, errors, isSubmitting, handleSubmit }) => {
+        {({ touched, errors, isSubmitting }) => {
           return <Form>
-            <label htmlFor="email"></label>
-            <div><TextField
-              id="email"
-              name="email"
-              placeholder="example@mail.com"
-              type="email"
-              label='Email'
+            <label htmlFor="username"></label>
+            <div><Field
+              id="username"
+              name="username"
+              placeholder="username"
+              type="text"
+              label='username'
               variant="outlined"
+              
               required
             />
-            {errors.email && touched.email && (
-              <div><ErrorMessage name="email"></ErrorMessage></div>
+            {errors.username && touched.username && (
+              <div><ErrorMessage name="username"></ErrorMessage></div>
             )}
             </div>
             <div>
             <label htmlFor="password"></label>
-            <TextField
+            <Field
               id="password"
               name="password"
               type="password"
               variant="filled"
-              label='Password'
+              
+              label='password'
               required
             />
             {errors.password && touched.password && (
@@ -93,3 +92,4 @@ const LoginFormik = () => {
 };
 
 export default LoginFormik;
+

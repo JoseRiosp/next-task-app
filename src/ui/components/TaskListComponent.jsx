@@ -3,6 +3,7 @@ import TaskComponent from '../pures/TaskComponent'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import TaskForm from '../../ui/forms/TaskForm'
+import { Skeleton } from '@mui/material'
 
 const TaskListComponent = () => {
     //const taskListData=[null]; //"TODO:" Get task data from Vercel Database
@@ -71,12 +72,13 @@ const TaskListComponent = () => {
         <tbody className='m-2 container flex flex-col gap-3'>
             {tasks.map((currentTask, index)=>{
                 return (
+                  
                     <TaskComponent 
                         key={index} 
                         task={currentTask}
                         manageTask={managingTask}>
                     </TaskComponent>
-                        
+                  
                 )
             })}
         </tbody>
@@ -85,8 +87,8 @@ const TaskListComponent = () => {
     if(tasks.length > 0){
       return table;
           } else {
-            return <div className='flex flex-col items-center justify-center'>
-              <h3 className='text-red-700' >You have no tasks to show</h3>
+            return <div className='flex flex-col items-center justify-center text-gray-500'>
+              <h3>You have no tasks to show</h3>
               <h6>Click <i className='bi bi-file-plus' style={{color: 'green'}}></i> to create a new one: </h6>
             </div>
 }
@@ -108,7 +110,12 @@ const TaskListComponent = () => {
             <button className='btn btn-success bi-file-plus' onClick={showAddTask} style={{borderRadius:"3rem"}}></button>
             </div>
         <div className='card-body' data-mdb-perfect-scrollbar="true" style={ {position: "relative", height: "400px"}}>
-          {loading ? (<p className='flex items-center justify-center' style={loadingStyle}>Loading tasks...</p>) 
+          {loading ? ( <div className='flex flex-col items-center gap-2 justify-center'> 
+          <p style={loadingStyle}>Loading tasks...</p>
+          <Skeleton animation="wave" width={300}/>
+          <Skeleton animation="wave" width={200} />
+          <Skeleton animation="wave" width={300} />
+          </div>) 
           : taskTable()}
         </div>
         </div>

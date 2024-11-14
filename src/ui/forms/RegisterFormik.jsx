@@ -43,18 +43,21 @@ export default function RegisterPage() {
 
    async function onSubmitForm(values){
     console.log(values.username)
-    const name= values.username;
+    const crudName= values.username;
+    //Required body
+    const name =crudName.toLowerCase();
     const email= values.email;
     const password = values.password;
     try{
-        const response= await axios.post('/api/seed-users',{
+        const response= await axios.post('/api/userAPI-handler.js',{
             name,
             email,
-            password
+            password,
+            action: 'create'
         });
         console.log(response.data.message)} //'TODO: Redirigir a Dashboard (o Profile) si usuario creado
         catch (error){
-        console.error('Error posting users:', error)
+        console.error('Error posting users:', error.response)
     } };
 
     /*async function onSubmitForm(values) {
