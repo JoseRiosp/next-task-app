@@ -16,21 +16,21 @@ const TaskComponent = ({ task, manageTask }) => {
   function taskLevelBadge() {
     switch (task.level) {
       case levels.NORMAL:
-        return (
+        return ( //"FIXME:" fix bootstrap badges"
           <h6 className="mb-0">
-            <span className="badge bg-primary">{task.level}</span>
+            <span className="badge badge-primary">{task.level}</span>
           </h6>
         );
       case levels.URGENTE:
         return (
           <h6 className="mb-0">
-            <span className="badge bg-warning">{task.level}</span>
+            <span className="badge badge-warning">{task.level}</span>
           </h6>
         );
       case levels.BLOCKING:
         return (
           <h6 className="mb-0">
-            <span className="badge bg-danger">{task.level}</span>
+            <span className="badge badge-danger">{task.level}</span>
           </h6>
         );
       default:
@@ -42,43 +42,38 @@ const TaskComponent = ({ task, manageTask }) => {
     if (task.completed) {
       return (
         <i onClick={()=>manageTask(task, "complete")}
-          className="bi-toggle-on task-action"
+          className="bi-toggle-on task-action icon-badge"
           style={{ color: "green", fontWeight: "bold" }}
         ></i>
       );
     } else {
       return (
         <i onClick={()=>manageTask(task, "complete")}
-          className="bi-toggle-off task-action"
+          className="bi-toggle-off task-action icon-badge"
           style={{ color: "grey", fontWeight: "bold" }}
         ></i>
       );
     }
   }
 
-  const taskCompleted ={
-    color: "grey",
-    textDecoration: "line-through",
-    fontWeight: "bold"
-  }
+  const taskCompleted =['text-gray-500 line-through opacity-50']
 
-  const taskPending ={
-    color: "tomato",
-    fontWeight: "bold"
-  }
+  const taskPending =['text-sky-500']
 
   return (
-    <tr className="fw-normal" style={task.completed ? taskCompleted : taskPending}>
-      <th>
+    <tr className={`border border-2 m-0 bg-white shadow rounded-lg pt-2 pb-2 flex flex-grow ${task.completed ? taskCompleted : taskPending}`}>
+      <th className="flex-grow" >
         <span style={{fontSize: "12pt", lineHeight:"1.2"}}>{task.name}</span>
       </th>
-      <td className="align-middle" style={{textAlign: "left", padding: "5px", margin:"0px", lineHeight:"1.2" }}>
+      <td className="w-5 leading-2 flex-grow">
         <span style={{fontSize: "11pt"}}>{task.description}</span>
       </td>
-      <td className="align-middle" style={{padding: "12px"}}>{taskLevelBadge()}</td>
-      <td className="align-middle">{taskIconCompleted()}
-        <i className="bi-trash task-action" style={{ color: "tomato" }} onClick={()=>{manageTask(task, "remove")}}></i>
-        </td>
+      <td className="align-middle flex-grow text-center" style={{padding: "12px"}}>{taskLevelBadge()}</td>
+      <td className="align-middle flex flex-grow items-center justify-center text-center hover:cursor-pointer gap-3 ">
+        <span>{taskIconCompleted()}</span>
+        <i className="bi-trash flex-grow hover:cursor-pointer icon-badge" style={{ color: "tomato" }} 
+        onClick={()=>{manageTask(task, "remove")}}></i>
+      </td>
     </tr>
   );
 };

@@ -1,0 +1,14 @@
+//Boostrap native variables and functions
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+//Boostratp tables 
+
+@import 'node_modules/bootstrap/scss/tables';
+@import "node_modules/bootstrap/scss/buttons";
+@import "node_modules/bootstrap/scss/forms";
+
+.icon-badge {
+    font-size: 1.1rem;
+}

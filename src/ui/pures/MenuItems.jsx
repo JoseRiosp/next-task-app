@@ -43,6 +43,8 @@ const MenuItems = () => {
             >
             {getIcon(list.icon)}
             <p className="hidden md:block">{list.text}</p>
+            {/*"TODO:"Create badge for tasks nunmbers to appear in Tasks side nav button
+             <span className='badge badge-light'>{taskLength}</span>*/}
           </Link>);
         })}
     </>

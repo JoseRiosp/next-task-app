@@ -17,12 +17,16 @@
     "@vercel/postgres": "^0.10.0",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.7",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
     "dotenv": "^16.4.5",
     "formik": "^2.4.5",
+    "icons": "^1.0.0",
     "next": "^15.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0",
+    "sass": "^1.80.7",
     "yup": "^1.4.0"
   },
   "devDependencies": {
