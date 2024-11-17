@@ -7,10 +7,10 @@ export default async function middleware (req){
     const isOnProtectedRoute = req.nextUrl.pathname.startsWith('/log');
 
     if(!token && isOnProtectedRoute ){
-        console.log('Unauthorized: session token not valid')
+        console.log('Middleware: unauthorized -token not valid')
         return NextResponse.redirect(new URL('/'), req.url);
     }  
-    console.log('Session token validated >>', token.name);
+    console.log('Middleware: token validated >>', token.name);
     return NextResponse.next()
 }
  
