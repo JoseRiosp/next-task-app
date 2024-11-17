@@ -1,4 +1,3 @@
-import Head from "next/head";
 import TaskListComponent from "../../../ui/components/TaskListComponent";
 import './../../../styles/custom-bootstrap.scss';
 import 'bootstrap-icons/font/bootstrap-icons.css'

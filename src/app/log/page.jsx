@@ -1,3 +1,4 @@
+'use client'
 import ProfilePag from "../../ui/components/ProfilePag";
 
 

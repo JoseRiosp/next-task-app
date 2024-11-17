@@ -7,8 +7,8 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
  
 export const { auth, signIn, signOut } = NextAuth({
-  ...authConfig,
-  providers: [Credentials({ 
+    //...authConfig,
+    providers: [Credentials({ 
     name:"credentials",
     credentials:{
         username: {label: 'username', type: 'text'},
@@ -30,5 +30,24 @@ export const { auth, signIn, signOut } = NextAuth({
     return isMatch? user : null;
     },  
 }),
-],
+], session:{jwt: true},
+    callbacks:{
+        async jwt({token, user}){
+            if(user){
+                token.token = user.token;
+                token.name = user.name;
+                token.email = user.email;
+            }
+            return token;
+        },
+        async session({session, token}){
+            if(token){
+                session.token = token.token;
+                session.name = token.name;
+                session.email = token.email;
+            }
+            return session;
+        },
+    },
+    secret: process.env.JWT_SECRET,
 });
