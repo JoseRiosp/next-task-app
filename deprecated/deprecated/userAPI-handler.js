@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { name, email, password, action } = req.body;
+    const { name, email='', password, action } = req.body;
 
     if(!name || !password || !action ){
       res.status(400).json({error: 'Missing required fields from formik'});

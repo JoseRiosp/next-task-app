@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 //import { seedUsers } from '../../services/route';
 import axios from 'axios';
+import { Button } from '@mui/material';
 //models
 //import { User } from '../../scripts/user.class';
 //import { role } from '../../../models/roles.enum';
@@ -49,11 +50,10 @@ export default function RegisterPage() {
     const email= values.email;
     const password = values.password;
     try{
-        const response= await axios.post('/api/userAPI-handler.js',{
+        const response= await axios.post('/api/userAPI-post.js',{
             name,
             email,
             password,
-            action: 'create'
         });
         console.log(response.data.message)} //'TODO: Redirigir a Dashboard (o Profile) si usuario creado
         catch (error){
@@ -68,7 +68,7 @@ export default function RegisterPage() {
     }*/
     return (
     <div>
-        <h4>Register User</h4>
+        <h4>Register new user</h4>
         <Formik 
         initialValues={initialValues}
         onSubmit={onSubmitForm}
@@ -130,7 +130,7 @@ export default function RegisterPage() {
             {errors.terms && touched.terms && (
                 <div><ErrorMessage name="terms"></ErrorMessage></div>
             )}
-            <button type="submit">Submit</button>
+            <Button variant='contained' type="submit">Register</Button>
             {isSubmitting ? <p>Login your credentials...</p> : null}
                 </Form>;
         }}
