@@ -14,7 +14,6 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         username: {label: 'username', type: 'text'},
         password:{label: 'password', type: 'password'},},
     async authorize(credentials) {
-        console.log(credentials)
         const user = await prisma.users.findUnique({ //users is the name of the table
             where: { name: credentials.username },
             select: { 
@@ -23,14 +22,19 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                 password: true,
                 email: true } //select data from vercel database
             });
-        console.log(user);
     if (!user) return null;
     const isMatch = await bcrypt.compare(credentials.password, user.password); //compare encryptated password
-    console.log(isMatch)
+    console.log('Auth:', user.name);
+    console.log('Auth:', isMatch)
     return isMatch? user : null;
     },  
 }),
-], session:{jwt: true},
+], 
+pages:{
+    signIn: '/',
+    signOut: '/'
+},
+session:{jwt: true},
     callbacks:{
         async jwt({token, user}){
             if(user){

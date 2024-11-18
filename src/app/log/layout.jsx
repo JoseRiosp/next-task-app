@@ -1,3 +1,4 @@
+'use client'
 import SideNav from "../../ui/components/SideNav";
 
 export default function ProfileLayout({ children }) {

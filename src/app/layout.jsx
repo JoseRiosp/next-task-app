@@ -13,7 +13,9 @@ export default function RootLayout({children, session}) {
     <html lang="en">
       <body className='flex flex-col min-h-screen' >
         <main className={`${montserrat.className} flex-grow`}>
-          <SessionProvider session={session}>{children}</SessionProvider>
+          <SessionProvider>
+            {children}
+          </SessionProvider>
         </main>
         <footer className='p-3 bg-blue-200'>
           <Copyright/>

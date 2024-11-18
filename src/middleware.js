@@ -6,10 +6,10 @@ export default async function middleware (req){
     const token = await getToken({req, secret: process.env.JWT_SECRET});
     const isOnProtectedRoute = req.nextUrl.pathname.startsWith('/log');
 
-    if(!token && isOnProtectedRoute ){
+    if(!token && isOnProtectedRoute){
         console.log('Middleware: unauthorized -token not valid')
-        return NextResponse.redirect(new URL('/'), req.url);
-    }  
+        return NextResponse.redirect(new URL('/', req.url));
+    } 
     console.log('Middleware: token validated >>', token.name);
     return NextResponse.next()
 }
@@ -17,5 +17,5 @@ export default async function middleware (req){
 //export default NextAuth(authConfig).auth;
 
 export const config = {
-  matcher: '/log/:path*',
+  matcher: '/log:path*',
 }

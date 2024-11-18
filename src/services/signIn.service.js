@@ -4,7 +4,7 @@ import { AuthError } from "next-auth";
 
 export async function authenticate(formData) {
     try {
-        await signIn('credentials', {...formData, redirectTo:'/log'}); //"TODO:" set Redirect to false if Middleware is activated!
+        await signIn('credentials', {...formData, redirectTo:'/log'});
     } catch (error) {
       if (error instanceof AuthError) {
         switch (error.type) {

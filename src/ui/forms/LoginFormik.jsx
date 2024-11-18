@@ -5,7 +5,7 @@ import * as Yup from "yup";
 //import { useNavigate } from "react-router-dom";
 import { Button} from "@mui/material";
 //import axios from "axios";
-import { authenticate } from "../../services/actions";
+import { authenticate } from "../../services/signIn.service";
 
 //Create an scheme with Yup
 const loginSchema = Yup.object().shape({
