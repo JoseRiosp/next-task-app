@@ -4,54 +4,52 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import TaskForm from '../../ui/forms/TaskForm'
 import { Skeleton } from '@mui/material'
+import { useSession } from 'next-auth/react'
+import axios from 'axios'
 
-const TaskListComponent = () => {
-    //const taskListData=[null]; //"TODO:" Get task data from Vercel Database
-    const [tasks, setTasks] = useState([]);
+const TaskListComponent=()=> {
+    //get User session data 
+    const {data: session} = useSession();
+     // Get task data from user in the Vercel Database
     const [loading, setLoading] = useState(true);
+    const [tasks, setTasks] = useState({postgresTasks:[]});
+    const taskArray = tasks.postgresTasks;
 
-    useEffect(() => {
-      console.log("Task state is been modified");
-        let time;
-        if(tasks.length<5){
-          time=1000;
-        } else {
-          time=2000;
-        }
-      
-      setTimeout(() => {
-        setLoading(false)
-      }, time);
-      return () => {
-        console.log("TaskListComponent is going to unmount...")
-      }
-    }, [tasks])
+      useEffect(() => {
+        async function fetchTasks(){
+            try{
+              const response= await axios.get('/api/task-API/');
+              setTasks(response.data);
+              console.log('API task object',tasks)
+            }catch(error){
+              console.error('Error requesting tasks',error)
+            } finally {
+              setLoading(false)
+            }
+          }    
+        if(session){
+              fetchTasks(); 
+            }
+      }, [session])
 
-
-    function managingTask(task, option){
-    
+    async function fetchTaskApi(task, option){
+        const tempTask = [...taskArray]
+        const index = tempTask.indexOf(task);
         console.log(`${option} this task: ${task}`);
-        const index= tasks.indexOf(task);
-        const tempTask=[...tasks];
-    
-    switch (option) {
-        case "complete" :
-          tempTask[index].completed=!tempTask[index].completed;
-          setTasks(tempTask);
-          break;
-        case "remove": 
-          alert(`Task "${tempTask[index].name}" deleted!`)
-          tempTask.splice(index,1);
-          setTasks(tempTask);
-          break;
-        case "add":
-          tempTask.push(task);
-          setTasks(tempTask);
-          break;
+        try{
+        const response =await axios.post('/api/task-API/',{
+          username: session?.user.name,
+          task: task,
+          index: index,
+          option: option
+        });
+        setTasks([...tempTask, response.data]);
+        console.log(tasks)
       }
-      
-      //"TODO: Await send tasks to task table in Vercel database
-    }
+        catch(error){
+          console.error('Error managing task', error)
+        }
+      }
 
       
       function showAddTask(){
@@ -59,8 +57,10 @@ const TaskListComponent = () => {
         greenBtn.toggleAttribute("hidden");
       }
         //Task Table
-      const taskTable= ()=>{
-        const table = <table className='rounded-lg flex flex-col items-center justify-start'>
+    const taskTable= ()=>{
+      console.log('task array:',taskArray);
+      if(taskArray.length > 0){
+        return (<table className='rounded-lg flex flex-col items-center justify-start'>
         <thead className='container'>
         <tr className='flex flex-grow mt-2 mb-2 pt-2 items-center text-gray-500'>
             <th className='flex-grow' scope='col'>Title</th>
@@ -70,28 +70,23 @@ const TaskListComponent = () => {
         </tr>
         </thead>
         <tbody className='m-2 container flex flex-col gap-3'>
-            {tasks.map((currentTask, index)=>{
+            {taskArray.map((currentTask, index)=>{
                 return (
-                  
                     <TaskComponent 
                         key={index} 
                         task={currentTask}
-                        manageTask={managingTask}>
+                        manageTask={fetchTaskApi}>
                     </TaskComponent>
-                  
                 )
             })}
         </tbody>
-    </table>
-
-    if(tasks.length > 0){
-      return table;
-          } else {
-            return <div className='flex flex-col items-center justify-center text-gray-500'>
+    </table>)}
+          else { 
+            return (<div className='flex flex-col items-center justify-center text-gray-500'>
               <h3>You have no tasks to show</h3>
               <h6>Click <i className='bi bi-file-plus' style={{color: 'green'}}></i> to create a new one: </h6>
             </div>
-}
+)}
       }
       const loadingStyle={
         //Lets put some animaition (spinner) for the loading page
@@ -102,7 +97,7 @@ const TaskListComponent = () => {
     return (
     <div>
       <div className="col-12">
-      <TaskForm manageTask={managingTask} nTasks={tasks.length}/>
+      <TaskForm manageTask={fetchTaskApi} nTasks={taskArray.length}/>
         <div className='card'>
             <div className='card-header p-3' style={{ display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center", gap:"8rem"}}>
             <i className='bi bi-archive-fill'></i>

@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { levels } from "../../scripts/levels.enum";
@@ -15,23 +16,23 @@ const TaskComponent = ({ task, manageTask }) => {
   }, [task]);
 
   function taskLevelBadge() {
-    switch (task.level) {
+    switch (task.levels) {
       case levels.NORMAL:
         return ( //"FIXME:" fix bootstrap badges"
           <h6 className="mb-0">
-            <span className="badge text-bg-primary">{task.level}</span>
+            <span className="badge text-bg-primary">{task.levels}</span>
           </h6>
         );
       case levels.URGENTE:
         return (
           <h6 className="mb-0">
-            <span className="badge text-bg-danger">{task.level}</span>
+            <span className="badge text-bg-danger">{task.levels}</span>
           </h6>
         );
       case levels.BLOCKING:
         return (
           <h6 className="mb-0">
-            <span className="badge text-bg-warning">{task.level}</span>
+            <span className="badge text-bg-warning">{task.levels}</span>
           </h6>
         );
       default:
@@ -40,7 +41,7 @@ const TaskComponent = ({ task, manageTask }) => {
   }
 
   function taskIconCompleted() {
-    if (task.completed) {
+    if (task.is_completed) {
       return (
         <i onClick={()=>manageTask(task, "complete")}
           className="bi-toggle-on icon-badge"
@@ -64,7 +65,7 @@ const TaskComponent = ({ task, manageTask }) => {
   return (
     <tr className={`border border-2 m-0 bg-white shadow-lg rounded-lg pt-2 pb-2 flex flex-grow ${task.completed ? taskCompleted : taskPending}`}>
       <th className="flex-grow justify-center items-center flex hover:cursor-default" >
-        <span style={{fontSize: "12pt", lineHeight:"1.2"}}>{task.name}</span>
+        <span style={{fontSize: "12pt", lineHeight:"1.2"}}>{task.title}</span>
       </th>
       <td className="flex w-3 leading-2 flex-grow hover:cursor-default">
         <span style={{fontSize: "10pt"}}>{task.description}</span>

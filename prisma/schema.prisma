@@ -14,3 +14,14 @@ model users {
   password String  @db.VarChar
   role     String  @default("USER")
 }
+
+model Tasks {
+  user         String
+  index        Int      @id @default(autoincrement())
+  title        String   @unique
+  description  String?
+  levels       String?
+  is_completed Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
