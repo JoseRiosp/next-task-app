@@ -59,10 +59,14 @@ const LoginFormik = () => {
     }
   }}*/
 
-async function onSubmit(values){
-  const result= await authenticate(values);
-  console.log(result);
-  setLoginError(result);
+async function onSubmit(values, {resetForm}){
+  try{
+    const result= await authenticate(values);
+    resetForm();
+    console.log(result);}
+  catch(error){
+    console.log('Error -signIn:', error)
+    setLoginError(result);}
 }
 
   return (

@@ -5,6 +5,7 @@ import { AuthError } from "next-auth";
 export async function authenticate(formData) {
     try {
         await signIn('credentials', {...formData, redirectTo:'/log'});
+        return 'User authentified';
     } catch (error) {
       if (error instanceof AuthError) {
         switch (error.type) {

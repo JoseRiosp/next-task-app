@@ -64,7 +64,7 @@ export async function GET(){
         user: session?.user.name,
         }
     });;
-    console.log(`GET: -${postgresTasks.length}- task(s) found in database`);
+    console.log(`GET: -${postgresTasks.length}- task(s) of ${session?.user.name} found in database`);
     return Response.json({postgresTasks})
 }
     catch(error){

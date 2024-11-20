@@ -5,6 +5,8 @@ import * as Yup from 'yup';
 //import { seedUsers } from '../../services/route';
 import axios from 'axios';
 import { Button } from '@mui/material';
+import { authenticate } from '../../services/signIn.service';
+
 //models
 //import { User } from '../../scripts/user.class';
 //import { role } from '../../../models/roles.enum';
@@ -44,13 +46,22 @@ export default function RegisterPage() {
 
    async function onSubmitForm(values){
     console.log(values.username)
-    const crudName= values.username;
-    //Required body
-    const name =crudName.toLowerCase();
-    const email= values.email;
-    const password = values.password;
     try{
-        const response= await axios.post('/api/userAPI-post.js',{
+        const result = await axios.post('/api/register-API/', {
+            name: values.username,
+            email: values.email,
+            password: values.password
+        });
+        await authenticate(values);
+        console.log('New user created:', result);
+    }catch(error){
+        console.log('Error- register user', error);
+    }
+    ;
+}
+
+    /*try{
+        const response= await axios.post('/api/userAPI-post.js',{ //"TODO:" Use Prisma to registe a new user
             name,
             email,
             password,
@@ -58,7 +69,9 @@ export default function RegisterPage() {
         console.log(response.data.message)} //'TODO: Redirigir a Dashboard (o Profile) si usuario creado
         catch (error){
         console.error('Error posting users:', error.response)
-    } };
+    } finally{
+        resetForm();
+    }*/
 
     /*async function onSubmitForm(values) {
         await new Promise((r) => setTimeout(r, 1000));
