@@ -8,30 +8,50 @@ import React from "react";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import SpaceDashboardRoundedIcon from '@mui/icons-material/SpaceDashboardRounded';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const getIcon = (icon) => {
   switch (icon) {
-    case "profile":
-      return <PeopleAltIcon/>;
+    case "dashboard":
+      return <SpaceDashboardRoundedIcon/>
+    case "favorite":
+      return <FavoriteBorderIcon/>;
+    case 'admin':
+      return <AdminPanelSettingsIcon/>
     case "task":
       return <TaskAltIcon/>;
-    case "about":
-      return <LiveHelpIcon/>;
+    case "contact":
+      return <PeopleAltIcon />;
     default:
       return <PeopleAltIcon />;
   }
 };
 
-const list  =[
-        { text: 'Profile', path: '/log', icon: 'profile'},
-        { text: 'Tasks', path: '/log/tasks', icon: 'task'},
-        { text: 'About', path: '/log/about', icon: 'about' }
-];
-
 const MenuItems = () => {
-    const pathname =usePathname()
+    const pathname =usePathname();
+    const {data:session} =useSession();
+    const userRole = session?.user.role;
+    let list=[];
+    if(userRole === 'USER'){
+    list  =[
+      { text: 'Dashboard', path: '/log', icon: 'dashboard'},
+      { text: 'Admin', path: '/log/admin', icon: 'admin' },
+      { text: 'Favorites', path: '/log/favorites', icon:'favorite' },
+      { text: 'Tasks', path: '/log/tasks', icon: 'task'},
+      { text: 'Contact', path: '/log/about', icon: 'contact' }
+] } else {
+    list=[
+      { text: 'Dashboard', path: '/log', icon: 'dashboard'},
+      { text: 'Favorites', path: '/log/favorites', icon:'favorite' },
+      { text: 'Tasks', path: '/log/tasks', icon: 'task'},
+      { text: 'Contact', path: '/log/about', icon: 'contact' }
+    ]
+}
   return (
     <>
         {list.map((list) => {

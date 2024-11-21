@@ -17,10 +17,11 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         const user = await prisma.users.findUnique({ //users is the name of the table
             where: { name: credentials.username },
             select: { 
-                token: true, 
+                id: true, 
                 name: true, 
                 password: true,
-                email: true } //select data from vercel database
+                email: true,
+                role: true } //select data from vercel database
             });
     if (!user) return null;
     const isMatch = await bcrypt.compare(credentials.password, user.password); //compare encryptated password
@@ -38,17 +39,19 @@ session:{jwt: true},
     callbacks:{
         async jwt({token, user}){
             if(user){
-                token.token = user.token;
+                token.id = user.id;
                 token.name = user.name;
                 token.email = user.email;
+                token.role = user.role;
             }
             return token;
         },
         async session({session, token}){
             if(token){
-                session.token = token.token;
-                session.name = token.name;
-                session.email = token.email;
+                session.user.id = token.id;
+                session.user.name = token.name;
+                session.user.email = token.email;
+                session.user.role = token.role;
             }
             return session;
         },
