@@ -1,6 +1,7 @@
 'use client'
 import axios from "axios";
 import { use, useEffect, useState } from "react";
+import DetailPage from "../../../../../ui/components/DetailPage";
 
 
 export default function DetailUserPage({params}) {
@@ -31,6 +32,9 @@ export default function DetailUserPage({params}) {
     }
     console.log(user)
     return (
-        <div>This is the detail user page for {user.name}</div>
+        <div className="h-full">
+        <DetailPage user={user}/>
+        </div>
+
     );
 }

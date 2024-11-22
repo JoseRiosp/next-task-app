@@ -20,7 +20,7 @@ export async function POST(request){
             console.log(`POST: ${option} this task...`)
             await prisma.Tasks.update({ //Update back-end
                 where: { 
-                    user: session?.user.name },
+                    user: session?.user.name }, //FIXME: filter by Task unique id
                 data:{
                     status:!task.completed
                 }

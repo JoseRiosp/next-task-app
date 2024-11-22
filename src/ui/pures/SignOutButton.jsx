@@ -8,10 +8,9 @@ import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
 const SignOutButton = () => {
   const [loginError, setLoginError] = useState('');
   const router = useRouter()
-  async function logOut(){
-    await logOutService();
+  function logOut(){
+    logOutService();
     router.push('/');
-    console.log('Logout sucessfully')
     }
 
     /*async function logOut(){

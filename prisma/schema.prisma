@@ -8,12 +8,16 @@ datasource db {
 }
 
 model users {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique @db.VarChar(100)
-  email     String   @unique @db.VarChar(100)
-  password  String   @db.VarChar
-  role      String   @default("USER")
-  createdAt DateTime @default(now())
+  id        Int       @id @default(autoincrement())
+  name      String    @unique @db.VarChar(100)
+  fullname  String?   @default("")
+  email     String    @unique @db.VarChar(100)
+  password  String    @db.VarChar
+  phone     String?   @default("")
+  birth_day String?   @default("")
+  role      String    @default("user")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Tasks {

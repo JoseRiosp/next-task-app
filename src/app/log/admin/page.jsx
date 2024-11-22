@@ -34,11 +34,11 @@ console.log(typeof userList)
 
 const userLevelBadge=(role)=>{
     switch (role) {
-        case 'USER':
+        case 'user':
             return <Chip label={role} color="primary" />
 
-        case 'ADMIN':
-            return <Chip label={role} color="sucess" />
+        case 'admin':
+            return <Chip label={role} color="success" />
 
         default:
             return <Chip label={role} color="primary" />

@@ -37,7 +37,7 @@ const MenuItems = () => {
     const {data:session} =useSession();
     const userRole = session?.user.role;
     let list=[];
-    if(userRole === 'USER'){
+    if(userRole === 'admin'){
     list  =[
       { text: 'Dashboard', path: '/log', icon: 'dashboard'},
       { text: 'Admin', path: '/log/admin', icon: 'admin' },

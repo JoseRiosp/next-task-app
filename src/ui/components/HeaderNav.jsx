@@ -8,7 +8,7 @@ import { lusitana, montserrat } from '../../app/fonts/fonts'
 const HeaderNav = () => {
     const {data: session}=useSession();
     const userName = session?.user.name;
-    const userRole = session?.user.role;
+    const userRole = session?.user.role.toUpperCase();
     //const [firstLetter] = userName.toUpperCase()
 
   return (

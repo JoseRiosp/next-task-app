@@ -8,6 +8,7 @@ export async function POST(request){
         if(!name || !password || !email ){
         return Response.json({error: 'Missing required fields from formik'});
     }
+    console.log(name, email, password)
     try{    
     const hashPassword = await bcrypt.hash(password, 10); 
     const user = await prisma.users.create({
