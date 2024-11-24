@@ -1,15 +1,24 @@
-import { HdrStrongOutlined } from '@mui/icons-material'
+import { AdminPanelSettings, HdrStrongOutlined } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React from 'react'
 import { lusitana, montserrat } from '../../app/fonts/fonts'
+import SignOutButton from '../pures/SignOutButton'
 
 const HeaderNav = () => {
     const {data: session}=useSession();
     const userName = session?.user.name;
     const userRole = session?.user.role.toUpperCase();
     //const [firstLetter] = userName.toUpperCase()
+const userBadge=()=>{
+    switch (userRole) {
+        case 'ADMIN':
+            return <AdminPanelSettings/>
+        case 'USER':
+        return null;
+        default: null
+    }}
 
   return (
     <div className="pl-6 flex items-center justify-start bg-blue-500 md:h-14">
@@ -19,13 +28,19 @@ const HeaderNav = () => {
             </div>
         </Link>
         <div className='w-3 h-full flex flex-row justify-end w-full'>
-            <div className='p-2 flex flex-row gap-3 items-center h-full'>
+            <div className='flex flex-row gap-3 items-center h-full'>
             <Avatar className='bg-blue-300'></Avatar>
             <div className='text-white flex flex-col pr-6' >
                 <strong>{userName}</strong>
+                <div>
                 <span>{userRole}</span>
+                {userBadge()}
+                </div>
             </div>
             </div>
+        </div>
+        <div className='h-full'>
+          <SignOutButton/>
         </div>
     </div>
   )

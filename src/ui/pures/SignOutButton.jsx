@@ -24,12 +24,13 @@ const SignOutButton = () => {
     }*/
 
   return (
-    <div>
-    <button onClick={logOut} className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-red-100 hover:text-red-600 md:flex-none md:justify-start md:p-2 md:px-3">
+    <button onClick={logOut} className="flex grow h-full px-2 pr-6 w-full 
+    items-center text-white justify-center gap-2 
+    hover:bg-sky-100 hover:text-blue-600
+    hover:font-bold">
     <LogoutSharpIcon/>
-            <div className="hidden md:block">Sign Out</div>
+            <div className="hidden md:block">Log Out</div>
     </button>
-    </div>
   )
 }
 

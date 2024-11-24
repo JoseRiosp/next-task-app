@@ -9,13 +9,10 @@ import { SessionProvider } from 'next-auth/react'
 const SideNav = () => {
   return (
     <SessionProvider>
-    <div className="flex h-full flex-col px-3 py-4 md:px-2">
-      <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
+    <div className="flex flex-col px-3 py-4 h-auto md:px-2">
+      <div className="flex grow flex-row h-auto justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
         <MenuItems/>
-        <div className="h-auto w-full grow rounded-md bg-gray-50 md:block">
-        </div>
-        <div>
-          <SignOutButton/>
+        <div className="h-auto w-full grow rounded-md bg-white md:block">
         </div>
       </div>
     </div>

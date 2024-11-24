@@ -1,125 +1,33 @@
-'use client'
-import { Chip } from '@mui/material';
-import axios from 'axios';
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import Link from "next/link";
+import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
+import DomainAddIcon from '@mui/icons-material/DomainAdd';
+
 
 export default function AdminPage() {
-    //const {data: session} = useSession();
-    const [userList, setUserList] = useState({postgresUsers:[]});
-    const [loading, setLoading] = useState(false);
-    const router = useRouter();
 
-
-useEffect(() => {
-        async function fetchUsers(){
-    try{
-        const response= await axios.get('/api/user-API/'); //"TODO:"Call users iwth a queryAPI and use a cicle to collect data ${id}
-        console.log(response.data);
-        setUserList(response.data.postgresUsers);
-        }   
-    catch(error){
-            console.log('Error fetching users:', error);
-        } 
-    finally{
-            setLoading(true);
-        }
-    };
-    fetchUsers();
-}, [])
-
-console.log('userList:', userList)
-console.log(typeof userList)
-
-const userLevelBadge=(role)=>{
-    switch (role) {
-        case 'user':
-            return <Chip label={role} color="primary" />
-
-        case 'admin':
-            return <Chip label={role} color="success" />
-
-        default:
-            return <Chip label={role} color="primary" />
-    }
-}
-/*const usersTable=()=>{ 
-    for(let i=0; i<(userArray.length); i++){
-    table= 
-    <tr className={`border border-2 m-0 bg-white shadow-lg rounded-lg pt-2 pb-2 flex flex-grow`}>
-            <td className="flex-grow justify-center items-center flex hover:cursor-default" >
-                <span>id</span>
-            </td>
-            <td className="flex w-3 leading-2 flex-grow hover:cursor-default">
-                <span>{userArray[i].name}</span>
-            </td>
-            <td className="flex w-3 leading-2 flex-grow hover:cursor-default">
-                <span>{userArray[i].email}</span>
-            </td>
-            <td className="align-middle flex-grow text-center">
-                {userLevelBadge(userArray[i].role)}
-            </td>
-            <td className="flex w-3 leading-2 flex-grow hover:cursor-default">
-                <span>Date</span>
-            </td>
-    </tr>
-}
- return table;}*/
-
-const handleUserClick=(userId)=>{
-    router.push(`/log/admin/users/${userId}`);
-}
-
-const table =()=> {
-    if(userList.length > 0){
-        return(
-    <div>
-      <table className='rounded-lg flex flex-col items-center justify-start'>
-        <thead className='container'>
-        <tr className='flex flex-grow mt-2 mb-2 pt-2 items-center text-gray-500'>
-            <th className='flex-grow' scope='col'>Id</th>
-            <th className='flex-grow' scope='col'>User</th>
-            <th className='flex-grow' scope='col'>Email</th>
-            <th className='flex-grow' scope='col'>Role</th>
-            <th className='flex-grow' scope='col'>Created at:</th>
-        </tr>
-        </thead>
-        <tbody className='m-2 container flex bg-white flex-col gap-3'>
-            {userList.map((user)=>{
-            return (<tr key={user.id}
-                        onClick={()=>handleUserClick(user.id)}
-                        className={`border border-2 m-0 bg-white shadow-lg rounded-lg pt-2 pb-2 flex items-center flex-grow hover:cursor-pointer`}>
-                <td className="flex-grow justify-center items-center flex" >
-                    <span>{user.id}</span>
-                </td>
-                <td className="flex w-3 leading-2 flex-grow">
-                    <span>{user.name}</span>
-                </td>
-                <td className="flex w-3 leading-2 flex-grow">
-                    <span>{user.email}</span>
-                </td>
-                <td className="align-middle flex-grow text-center">
-                    {userLevelBadge(user.role)}
-                </td>
-                <td className="flex w-3 leading-2 flex-grow">
-                    <span>{user.createdAt}</span>
-                </td>
-            </tr>)
-            })}
-        </tbody>
-      </table>
+    return (
+    <div className='flex flex-col gap-3 h-full'>
+        <div className='flex flex-col h-40 shadow-lg items-center justify-center bg-white rounded-lg'>
+            <h1>Welcome, Admin</h1>
+        </div>
+        <div className=" bg-sky-100 h-20 rounded-lg shadow-lg" >
+            <span>Messages</span>
+        </div>
+        <div className=" bg-blue-100 h-20 roundedl-lg shadow-lg">
+            Official Documents
+        </div>
+        <div className=" flex gap-2 items-center text-blue-500 h-auto flex-row">
+        <Link className='flex flex-col items-center p-2 shadow-lg bg-sky-100 h-auto w-full rounded-lg'
+                href='/log/admin/users' >
+                <AccessibilityNewIcon/>
+                <div>Users Management</div>
+                <div></div>
+        </Link>
+        <div className='flex flex-col shadow-lg bg-blue-100 p-2 items-center h-auto w-full rounded-lg'>
+            <DomainAddIcon/>
+            <span>Department Management</span>
+        </div>
+        </div>
     </div>
-  )
-} else {
-    return <p>There are no users registered</p>
-        }
-    }
-
-
-    return (<div>
-        {loading ? table(): <p>Loading users...</p>}
-    </div>)
-
+    );
 }
-

@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from 'bcryptjs';
+import { auth } from "../../../../auth";
 
 const prisma = new PrismaClient();
 
@@ -61,6 +62,7 @@ export async function GET(req){
 }}
 
 export async function POST(request){
+    const session = await auth()
     console.log('POST: updating user...')
     const{ values } = await request.json();
     if(!values){
@@ -97,7 +99,7 @@ export async function POST(request){
                 data: purgData
             }
         );
-        return Response.json({message: `user ${values.name} sucessfully updated`, updateUser})
+        return Response.json({message: `user ${updateUser.name} sucessfully updated`, updateUser})
     } catch (error){
         return Response.json({message: 'Internal error at updating user', error})
     }

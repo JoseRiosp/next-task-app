@@ -8,8 +8,8 @@ export default function DashboardLayout({ children }) {
     <SessionProvider>
     <section className="flex flex-col w-full">
       <HeaderNav/>
-      <div className="flex flex-row w-full">
-      <SideNav className="" />
+      <div className="flex flex-col md:flex-row w-full">
+      <SideNav/>
       <section className="p-3 mx-3 mt-4 m-b0 container rounded-lg items-center h-screen w-screen overflow-hidden bg-gray-100">
         {children}
       </section>

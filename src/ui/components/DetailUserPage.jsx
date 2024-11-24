@@ -3,13 +3,14 @@ import PropTypes from 'prop-types'
 import { Avatar, Button } from '@mui/material'
 import EditUserForm from '../forms/EditUserForm'
 
-const DetailPage = ({user}) => {
+const DetailUserPage = ({user}) => {
     const [infoMod, setInfoMod] = useState('show')
 
     const table =(infoMod)=>{
         if(infoMod === 'show'){
         return (
             <div className='flex items-center flex-col gap-2 w-full'>
+            <Avatar className='bg-blue-300 h-20 w-20' />
             <Button onClick={()=>{setInfoMod('edit')}} variant='outlined'>Edit Info</Button>
             <table className='bg-blue-50 h-60 w-full text-blue-500 shadow-lg rounded-lg'>
                 <thead>
@@ -63,25 +64,16 @@ const DetailPage = ({user}) => {
 }
 
   return (
-    <div className='grid grid-cols-2 grid-rows-2 gap-3 h-full'>
-        <div className='flex flex-col gap-2 shadow-lg items-center justify-center bg-blue-100 p-2 rounded-lg'>
-            <Avatar className='bg-blue-300' sx={{width:80, height:80}}></Avatar>
-            {table(infoMod)}
-        </div>
-        <div className='col-span-2 shadow-lg bg-sky-100 col-start-1 row-start-2 rounded-lg'>
-            User Department details
-        </div>
-        <div className='col-start-2 shadow-lg row-start-1 bg-white rounded-lg'>
-            User Document details
-        </div>
+    <div className='flex flex-col items-center gap-2 p-2 w-full'>
+        {table(infoMod)}
     </div>
   )
 }
 
-DetailPage.propTypes={
-    user: PropTypes.object.isRequired
+DetailUserPage.propTypes={
+    user: PropTypes.object.isRequired,
 }
 
-export default DetailPage
+export default DetailUserPage
 
 

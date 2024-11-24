@@ -1,26 +1,24 @@
 'use client'
-import { Chip } from '@mui/material';
+import { Chip, Skeleton } from '@mui/material';
 import axios from 'axios';
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
-const AdminTables = () => {
+export default function UsersPage() {
     //const {data: session} = useSession();
-    const [userList, setUserList] = useState({postgresUser:[]});
+    const [userList, setUserList] = useState({postgresUsers:[]});
     const [loading, setLoading] = useState(false);
-    const [userArray, setUserArray] = useState([]);
+    const router = useRouter();
 
 
 useEffect(() => {
         async function fetchUsers(){
     try{
-        const response= await axios.get('/api/user-API/');
+        const response= await axios.get('/api/user-API/'); //"TODO:"Call users iwth a queryAPI and use a cicle to collect data ${id}
         console.log(response.data);
-        setUserList(response.data);
-        console.log(userList)
-        console.log(userArray);
-        console.log(typeof userArray)
-        }
+        setUserList(response.data.postgresUsers);
+        }   
     catch(error){
             console.log('Error fetching users:', error);
         } 
@@ -31,18 +29,15 @@ useEffect(() => {
     fetchUsers();
 }, [])
 
-console.log(userList)
-console.log(userArray)
-console.log(typeof userArray)
+console.log('userList:', userList)
+console.log(typeof userList)
 
 const userLevelBadge=(role)=>{
     switch (role) {
-        case 'USER':
+        case 'user':
             return <Chip label={role} color="primary" />
-
-        case 'ADMIN':
-            return <Chip label={role} color="sucess" />
-
+        case 'admin':
+            return <Chip label={role} color="success" />
         default:
             return <Chip label={role} color="primary" />
     }
@@ -70,8 +65,18 @@ const userLevelBadge=(role)=>{
 }
  return table;}*/
 
+const handleUserClick=(userId)=>{
+    router.push(`/log/admin/users/${userId}`);
+}
+const loadingStyle={
+    //Lets put some animaition (spinner) for the loading page
+    color: 'grey',
+    fontSize: '20px',
+    fontWeight: 'bold'
+  }
+
 const table =()=> {
-    if(userArray.length > 0){
+    if(userList.length > 0){
         return(
     <div>
       <table className='rounded-lg flex flex-col items-center justify-start'>
@@ -85,24 +90,29 @@ const table =()=> {
         </tr>
         </thead>
         <tbody className='m-2 container flex bg-white flex-col gap-3'>
-            {Object.values(userArray).map((user)=>{
-            <tr className={`border border-2 m-0 bg-white hover:bg-sky-200 shadow-lg rounded-lg pt-2 pb-2 flex flex-grow`}>
-                <td className="flex-grow justify-center items-center flex hover:cursor-default" >
-                    <span>id</span>
+            {userList.map((user)=>{
+            return (<tr key={user.id}
+                        onClick={()=>handleUserClick(user.id)}
+                        className={`border border-2 m-0 bg-white shadow-lg 
+                        rounded-lg pt-2 pb-2 flex items-center flex-grow 
+                        hover:bg-sky-200
+                        hover:cursor-pointer`}>
+                <td className="flex-grow justify-center items-center flex" >
+                    <span>{user.id}</span>
                 </td>
-                <td className="flex w-3 leading-2 flex-grow hover:cursor-default">
+                <td className="flex w-3 leading-2 flex-grow">
                     <span>{user.name}</span>
                 </td>
-                <td className="flex w-3 leading-2 flex-grow hover:cursor-default">
+                <td className="flex w-3 leading-2 flex-grow">
                     <span>{user.email}</span>
                 </td>
                 <td className="align-middle flex-grow text-center">
                     {userLevelBadge(user.role)}
                 </td>
-                <td className="flex w-3 leading-2 flex-grow hover:cursor-default">
-                    <span>Date</span>
+                <td className="flex w-3 leading-2 flex-grow">
+                    <span>{user.createdAt}</span>
                 </td>
-            </tr>
+            </tr>)
             })}
         </tbody>
       </table>
@@ -115,9 +125,13 @@ const table =()=> {
 
 
     return (<div>
-        {loading ? table(): <p>Loading users...</p>}
+        {loading ? table(): <div className='flex flex-col items-center gap-3 justify-center'>
+            <p style={loadingStyle}>Loading users...</p>
+            <Skeleton animation="wave" width={300}/>
+            <Skeleton animation="wave" width={200} />
+            <Skeleton animation="wave" width={300} />
+        </div> }
     </div>)
 
 }
 
-export default AdminTables
