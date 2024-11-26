@@ -62,14 +62,19 @@ export async function GET(req){
 }}
 
 export async function POST(request){
-    const session = await auth()
-    console.log('POST: updating user...')
-    const{ values } = await request.json();
-    if(!values){
-        return Response.json({message: 'Invalid/missing values data'})
-    }
+    const{ values, action } = await request.json();
+    const session = await auth();
     const {searchParams} = new URL(request.url);
     const id = searchParams.get('id');
+
+    if(!action){
+        return Response.json({message: 'Invalid/missing action method'})
+    }
+    if(action === 'update'){
+        if(!values){
+            return Response.json({message: 'Invalid/missing values data'})
+        }
+    console.log('POST: updating user...')
     let hashedPassword;
     if(values.password){
         hashedPassword= await bcrypt.hash(values.password, 10);
@@ -89,8 +94,9 @@ export async function POST(request){
             purgData[key] = data[key]
         }
     })
-    console.log(id)
-    console.log(purgData)
+    console.log('user Id:',id)
+    console.log('Payload:', purgData)
+    const dataLength = Object.keys(purgData).length;
 
     try{
        const updateUser= await prisma.users.update(
@@ -99,8 +105,36 @@ export async function POST(request){
                 data: purgData
             }
         );
-        return Response.json({message: `user ${updateUser.name} sucessfully updated`, updateUser})
+        return Response.json({message: `✔︎ user ${updateUser.name} sucessfully updated (${dataLength} field(s))`, updateUser})
     } catch (error){
-        return Response.json({message: 'Internal error at updating user', error})
+        return Response.json({message: '✗ internal error at updating user, try again later', error})
+    } }
+
+    else if ( action === 'delete'){
+        const formPassword = values.adminPassword;
+        console.log('user id: ',session?.user.id)
+        const adminPassword = await prisma.users.findUnique({
+            where: {
+                id: parseInt(session?.user.id)
+            },
+            select:{
+                password: true
+            }
+        });
+        const isMatch = await bcrypt.compare(formPassword, adminPassword.password);
+        console.log('isMatch?', isMatch)
+        if(isMatch){
+            console.log('POST: deleting user...');
+        try {
+            const deleteUser = await prisma.users.delete({
+                where: { id: parseInt(id) } 
+            });
+            return Response.json({message: `user ${deleteUser.name} sucessfully deleted`, deleteUser})
+        } catch (error){
+            return Response.json({message: 'Internal error at deleting user', error})
+        }} 
+            else {
+            return Response.json({message: 'Invalid Admin Password'})
+        }
     }
 }

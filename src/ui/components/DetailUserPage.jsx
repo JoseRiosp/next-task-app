@@ -12,7 +12,7 @@ const DetailUserPage = ({user}) => {
             <div className='flex items-center flex-col gap-2 w-full'>
             <Avatar className='bg-blue-300 h-20 w-20' />
             <Button onClick={()=>{setInfoMod('edit')}} variant='outlined'>Edit Info</Button>
-            <table className='bg-blue-50 h-60 w-full text-blue-500 shadow-lg rounded-lg'>
+                <table className='bg-blue-50 h-60 w-full text-blue-500 shadow-lg rounded-lg'>
                 <thead>
                 </thead>
                 <tbody>
@@ -53,7 +53,7 @@ const DetailUserPage = ({user}) => {
                         <td>{user.createdAt}</td>
                     </tr>
                 </tbody>
-            </table>
+                </table>
             </div>
         )
     } else if( infoMod === 'edit'){

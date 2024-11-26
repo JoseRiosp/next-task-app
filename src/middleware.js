@@ -7,7 +7,7 @@ export default async function middleware (req){
     const isOnProtectedRoute = req.nextUrl.pathname.startsWith('/log');
 
     if(!token && isOnProtectedRoute){
-        console.log(' ✗ Middleware: unauthorized -token not valid')
+        console.log(' ✗ Middleware: unauthorized -token undefined')
         return NextResponse.redirect(new URL('/', req.url));
     } 
     console.log(' ✔︎ Middleware: token >>', token.name);

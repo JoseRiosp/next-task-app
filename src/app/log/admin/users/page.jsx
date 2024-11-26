@@ -2,8 +2,9 @@
 import { Chip, Skeleton } from '@mui/material';
 import axios from 'axios';
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation';
+import { permanentRedirect, redirect, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
+import { auth } from '../../../../../auth';
 
 export default function UsersPage() {
     //const {data: session} = useSession();

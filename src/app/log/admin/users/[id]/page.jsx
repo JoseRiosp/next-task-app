@@ -30,7 +30,7 @@ export default function UsersPage({params}) {
     
     if(loading){
         return (<div className='flex flex-col items-center gap-3 justify-center'>
-            <p className='text-gray-400 font-bold text-5'>Loading users details...</p>
+            <p className='text-gray-400 font-bold text-5'>Loading user info details...</p>
             <Skeleton animation="wave" width={300}/>
             <Skeleton animation="wave" width={200} />
             <Skeleton animation="wave" width={300} />
