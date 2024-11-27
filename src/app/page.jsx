@@ -4,7 +4,7 @@ import LoginFormik from "../ui/forms/LoginFormik";
 import RegisterPage from "../ui/forms/RegisterFormik";
 import { micro_5 } from "./fonts/fonts";
 import Image from "next/image";
-import './../styles/custom-bootstrap.scss';
+//import './../styles/custom-bootstrap.scss';
 import { useSession } from "next-auth/react";
 
 

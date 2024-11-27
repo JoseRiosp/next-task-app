@@ -58,7 +58,7 @@ const DetailUserPage = ({user}) => {
         )
     } else if( infoMod === 'edit'){
         return(
-            <EditUserForm user={user}/>
+            <EditUserForm userInfo={user}/>
         )
     }
 }

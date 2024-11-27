@@ -1,14 +1,12 @@
 'use client'
 import { Chip } from '@mui/material';
 import axios from 'axios';
-import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 
 const AdminTables = () => {
     //const {data: session} = useSession();
     const [userList, setUserList] = useState({postgresUser:[]});
     const [loading, setLoading] = useState(false);
-    const [userArray, setUserArray] = useState([]);
 
 
 useEffect(() => {

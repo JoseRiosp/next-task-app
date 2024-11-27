@@ -31,7 +31,7 @@ export async function GET(req){
                 return Response.json({message: 'GET: User not found'})
             }
         } catch(error){
-            return Response.json({message: 'GET: Internal GET error in user-API'})
+            return Response.json({message: 'GET: Internal GET error in user-API', error})
         }
     }
 
