@@ -20,7 +20,6 @@ if(session){
     <div className="flex bg-sky-200 h-screen rounded-lg flex-col flex-grow gap-5 items-center justify-center m-2" >
       <div className="flex items-center">
       <h1 className={`${micro_5.className} welcome-text text-blue-500 text-lg"`}>Welcome to</h1>
-      <Image width={200} height={40} alt='TaskApp-logo' quality={50} src='/TaskApp-logo.PNG' />
       </div>
       <div className="flex flex-row gap-10">
       <RegisterPage/>

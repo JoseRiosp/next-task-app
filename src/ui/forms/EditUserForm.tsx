@@ -18,10 +18,10 @@ const EditUserForm = ({ userInfo }) => {
 
   const user: UserInterface = userInfo;
 
-  type FormValues={
-    [key: string]: string 
-  }
-  const initialValues : FormValues = {
+  type FormValues = {
+    [key: string]: string;
+  };
+  const initialValues: FormValues = {
     name: user.name,
     fullname: user.fullname,
     email: user.email,
@@ -30,7 +30,7 @@ const EditUserForm = ({ userInfo }) => {
     birth_day: user.birth_day,
     role: user.role,
   };
-  const initialValuesAdmin : FormValues = {
+  const initialValuesAdmin: FormValues = {
     adminPassword: "",
   };
 
@@ -55,10 +55,9 @@ const EditUserForm = ({ userInfo }) => {
     message: string;
   }
 
-  async function fetchPostUser(values : FormValues | null ) : Promise<void> 
-  {
+  async function fetchPostUser(values: FormValues | null): Promise<void> {
     console.log(values.role);
-    const formData : FormValues = {};
+    const formData: FormValues = {};
     Object.keys(values).forEach((key) => {
       //only include not-null nor undefined values in the API request
       if (
@@ -91,16 +90,17 @@ const EditUserForm = ({ userInfo }) => {
       console.log("refreshing...");
       router.refresh();
     }
-  }  
+  }
 
-
-  async function fetchDeleteUser(formData : FormValues): Promise<void> {
-
+  async function fetchDeleteUser(formData: FormValues): Promise<void> {
     try {
-      const response = await axios.post<ResponseData>(`/api/user-API?id=${user.id}`, {
-        values: formData,
-        action: "delete",
-      });
+      const response = await axios.post<ResponseData>(
+        `/api/user-API?id=${user.id}`,
+        {
+          values: formData,
+          action: "delete",
+        }
+      );
       setErrorAdmin(response.data.message);
       return console.log(response.data);
     } catch (error) {

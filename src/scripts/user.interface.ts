@@ -6,6 +6,6 @@ export default interface UserInterface {
     email: string,
     birth_day: string,
     role: string,
-    createdAt: number,
-    updatedAt: number
+    createdAt: string,
+    updatedAt: string
 }

@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 //import { seedUsers } from '../../services/route';
 import axios from 'axios';
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { authenticate } from '../../services/signIn.service';
 
 //models
@@ -80,37 +80,39 @@ export default function RegisterPage() {
         //localStorage.setItem("credentials", values);
     }*/
     return (
-    <div>
-        <h4>Register new user</h4>
+    <div className='text-blue-500 flex flex-col items-center'>
         <Formik 
         initialValues={initialValues}
         onSubmit={onSubmitForm}
         validationSchema={registerSchema}>
                 {({ touched, errors, isSubmitting }) => {
-            return <Form>
+            return <Form className='flex flex-col items-center align-center gap-3'>
         <div>
-            <label htmlFor="username">Your username</label>
+            <label htmlFor="username"></label>
             <Field
+                className='p-1 rounded-lg text-blue-500'
                 id="username"
                 name="username"
-                placeholder="username"
                 type="text"
+                placeholder='username'
+                required
             />
         </div>
             {errors.username && touched.username && (
-                <div><ErrorMessage name="username"></ErrorMessage></div>
+                <div className='text-red-500'><ErrorMessage name="username"></ErrorMessage></div>
             )}
         <div>
-            <label htmlFor="email">Write your email</label>
+            <label htmlFor="email"></label>
             <Field
                 id="email"
                 name="email"
-                placeholder="email@email.com"
+                placeholder='email@domain.com'
                 type="email"
+                required
             />
         </div>
             {errors.email && touched.email && (
-                <div><ErrorMessage name="email"></ErrorMessage></div>
+                <div  className='text-red-500'><ErrorMessage name="email"></ErrorMessage></div>
             )}
         <div>
             <label htmlFor="password">Write your password</label>
