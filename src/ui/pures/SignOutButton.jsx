@@ -9,8 +9,13 @@ const SignOutButton = () => {
   const [loginError, setLoginError] = useState('');
   const router = useRouter()
   function logOut(){
-    logOutService();
-    router.push('/');
+    try{
+      logOutService();} catch(error){
+      console.log('Error in logOut:', error)
+    } finally {
+      router.replace('/')
+    }
+    //router.push('/');
     }
 
     /*async function logOut(){

@@ -1,4 +1,5 @@
 'use server';
+//import { redirect } from "next/dist/server/api-utils";
 import { auth, signOut } from "../../auth";
 import { AuthError } from "next-auth";
 
@@ -7,7 +8,7 @@ export async function logOutService() {
   const session = await auth();
   console.log('Login out >>', session?.user.name);
     try {
-        await signOut({redirect: false});
+        await signOut({redirect:false});
     } catch (error) {
       if (error instanceof AuthError) {
         switch (error.type) {

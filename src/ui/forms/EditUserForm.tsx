@@ -93,12 +93,12 @@ const EditUserForm = ({ userInfo }) => {
   }
 
   async function fetchDeleteUser(values: FormValues): Promise<void> {
-    try {
-      const response = await axios.delete<ResponseData>(
+    try { //"TODO:"configurate store
+      /*const response = await axios.delete<ResponseData>(
         `/api/user-API?id=${user.id}`
       );
       setErrorAdmin(response.data.message);
-      return console.log(response.data.message);
+      return console.log(response.data.message);*/
     } catch (error) {
       return console.log("Error deleting user", error);
     } finally {

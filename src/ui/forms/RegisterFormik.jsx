@@ -6,12 +6,15 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { Button } from '@mui/material';
 import { authenticate } from '../../services/signIn.service';
+import { useDispatch } from 'react-redux';
+import { createUser } from '../../store/slices/userSlice';
 
 //models
 //import { User } from '../../scripts/user.class';
 //import { role } from '../../../models/roles.enum';
 
 export default function RegisterPage() {
+    const dispatch = useDispatch();
     const initialValues = {
         username: '',
         email:'',
@@ -44,15 +47,18 @@ export default function RegisterPage() {
    async function onSubmitForm(values){
     console.log(values.username)
     try{
-        const result = await axios.post('/api/register-API/', {
+        const result = await dispatch(createUser(values));
+        authenticate(values);
+        console.log(result.payload)
+        /*const result = await axios.post('/api/register-API/', {
             name: values.username,
             email: values.email,
             password: values.password
         });
         await authenticate(values);
-        console.log('New user created:', result);
+        console.log('New user created:', result);*/
     }catch(error){
-        console.log('Error- register user', error);
+        console.log('Unexpected error at registering user:', error);
     }
     ;
 }
