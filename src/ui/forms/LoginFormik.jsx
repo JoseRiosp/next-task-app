@@ -70,24 +70,23 @@ async function onSubmit(values, {resetForm}){
 }
 
   return (
-    <div>
+    <div className="text-blue-500">
       <Formik
         initialValues={initialCredentials}
         validationSchema={loginSchema} //from Yup
         onSubmit={onSubmit}
       >
         {({ values, touched, errors, isSubmitting }) => {
-          return <Form>
-            <h1>Login</h1>
+          return <Form className="flex flex-col gap-3">
             <label htmlFor="username"></label>
             <div><Field
+              className='p-1 rounded-lg text-blue-500'
               id="username"
               name="username"
               placeholder="username"
               type="text"
               label='username'
               variant="outlined"
-              
               required
             />
             {errors.username && touched.username && (
@@ -97,6 +96,7 @@ async function onSubmit(values, {resetForm}){
             <div>
             <label htmlFor="password"></label>
             <Field
+              className='p-1 rounded-lg text-blue-500'
               id="password"
               name="password"
               type="password"

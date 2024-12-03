@@ -7,9 +7,8 @@ const prisma = new PrismaClient();
 export async function GET(req){
     const {searchParams} =new URL(req.url);
     const id= searchParams.get('id');
-    console.log(id)
-
     if(id){
+        console.log('GET: requesting user by id=', id)
         try{
             const user = await prisma.users.findUnique({
                 where: { id: parseInt(id) },
@@ -34,9 +33,7 @@ export async function GET(req){
             return Response.json({message: 'GET: Internal GET error in user-API', error})
         }
     }
-
     else{
-
     console.log('GET: requesting users table...')
     //if(session?.user.role === 'ADMIN') Add this when I put mmyself as Admin
     try{
@@ -61,20 +58,15 @@ export async function GET(req){
     }
 }}
 
-export async function POST(request){
-    const{ values, action } = await request.json();
+export async function PUT(request){
+    const{ values } = await request.json();
     const session = await auth();
     const {searchParams} = new URL(request.url);
     const id = searchParams.get('id');
-
-    if(!action){
+    if(!values){
         return Response.json({message: 'Invalid/missing action method'})
     }
-    if(action === 'update'){
-        if(!values){
-            return Response.json({message: 'Invalid/missing values data'})
-        }
-    console.log('POST: updating user...')
+    console.log('PUT: updating user...')
     let hashedPassword;
     if(values.password){
         hashedPassword= await bcrypt.hash(values.password, 10);
@@ -110,18 +102,20 @@ export async function POST(request){
         return Response.json({message: '✗ internal error at updating user, try again later', error})
     } }
 
-    else if ( action === 'delete'){
-        const formPassword = values.adminPassword;
-        console.log('user id: ',session?.user.id)
+export async function POST(request){
+        const {password} = request.json()
+        const {searchParams} = new URL(request.url);
+        const id = searchParams.get('id');
+        console.log(id)
         const adminPassword = await prisma.users.findUnique({
             where: {
-                id: parseInt(session?.user.id)
+                id: parseInt(id)
             },
             select:{
                 password: true
             }
         });
-        const isMatch = await bcrypt.compare(formPassword, adminPassword.password);
+        const isMatch = await bcrypt.compare(password, adminPassword.password);
         console.log('isMatch?', isMatch)
         if(isMatch){
             console.log('POST: deleting user...');
@@ -137,4 +131,3 @@ export async function POST(request){
             return Response.json({message: 'Invalid Admin Password'})
         }
     }
-}

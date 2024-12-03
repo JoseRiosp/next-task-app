@@ -9,8 +9,13 @@ import { Avatar, Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { AdminPanelSettings } from "@mui/icons-material";
 import UserInterface from "../../scripts/user.interface";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../store/slices/userSlice";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 const EditUserForm = ({ userInfo }) => {
+  const dispatch =useAppDispatch();
+  //const { status } = useSelector((state)=>state.users);
   const router = useRouter();
   const [deleteUser, setDeleteUser] = useState<boolean>(false);
   const [errorAdmin, setErrorAdmin] = useState<string | undefined>("");
@@ -57,6 +62,7 @@ const EditUserForm = ({ userInfo }) => {
 
   async function fetchPostUser(values: FormValues | null): Promise<void> {
     console.log(values.role);
+    console.log(user.id)
     const formData: FormValues = {};
     Object.keys(values).forEach((key) => {
       //only include not-null nor undefined values in the API request
@@ -74,17 +80,11 @@ const EditUserForm = ({ userInfo }) => {
     console.log(formDatalength);
     if (formDatalength > 0) {
       try {
-        const response = await axios.post(`/api/user-API?id=${user.id}`, {
-          values: formData,
-          action: "update",
-        });
-        //setUpdateInfo(response.data.message);
-        return console.log(response.data);
-      } catch (error) {
-        return console.log("Error updating user", error);
-      } finally {
-        console.log("refreshing...");
-        router.refresh();
+        const result = await dispatch(updateUser({formData, id: user.id}));
+        console.log(result.payload)
+    }
+      catch (error){
+        console.log('Unexpected error at updating user', error)
       }
     } else {
       console.log("refreshing...");
@@ -92,17 +92,13 @@ const EditUserForm = ({ userInfo }) => {
     }
   }
 
-  async function fetchDeleteUser(formData: FormValues): Promise<void> {
+  async function fetchDeleteUser(values: FormValues): Promise<void> {
     try {
-      const response = await axios.post<ResponseData>(
-        `/api/user-API?id=${user.id}`,
-        {
-          values: formData,
-          action: "delete",
-        }
+      const response = await axios.delete<ResponseData>(
+        `/api/user-API?id=${user.id}`
       );
       setErrorAdmin(response.data.message);
-      return console.log(response.data);
+      return console.log(response.data.message);
     } catch (error) {
       return console.log("Error deleting user", error);
     } finally {

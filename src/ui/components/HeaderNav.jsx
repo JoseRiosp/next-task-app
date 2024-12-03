@@ -5,6 +5,8 @@ import Link from 'next/link'
 import React from 'react'
 import { lusitana, montserrat } from '../../app/fonts/fonts'
 import SignOutButton from '../pures/SignOutButton'
+import { doppio } from "../../app/fonts/fonts";
+
 
 const HeaderNav = () => {
     const {data: session}=useSession();
@@ -17,11 +19,10 @@ const userBadge=()=>{
             return <AdminPanelSettings/>
         case 'USER':
         return null;
-        default: null
-    }}
+    }};
 
   return (
-    <div className="pl-6 flex items-center justify-start bg-blue-500 md:h-14">
+    <div className={`${montserrat.className} pl-6 flex items-center justify-start bg-blue-500 md:h-14`}>
         <Link href="/">
             <div className="w-30 text-white md:w-40 pd-0 items-center">
             <span className='md: text-lg'>Deskstack</span>{/*<Image width={500} height={400} alt='TaskApp-logo' quality={50} src='/TaskApp-logo.PNG' ></Image>*/}
@@ -40,7 +41,7 @@ const userBadge=()=>{
             </div>
         </div>
         <div className='h-full'>
-          <SignOutButton/>
+            <SignOutButton/>
         </div>
     </div>
   )

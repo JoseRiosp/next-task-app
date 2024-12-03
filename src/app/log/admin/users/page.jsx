@@ -5,33 +5,17 @@ import { useSession } from 'next-auth/react'
 import { permanentRedirect, redirect, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { auth } from '../../../../../auth';
+import { useSelector } from 'react-redux';
+import {getUsers} from '../../../../store/slices/userSlice'
 
 export default function UsersPage() {
     //const {data: session} = useSession();
-    const [userList, setUserList] = useState({postgresUsers:[]});
-    const [loading, setLoading] = useState(false);
+    //const [userList, setUserList] = useState({postgresUsers:[]});
+    //const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const {users, status, error} = useSelector((state)=>state.users);
 
-
-useEffect(() => {
-        async function fetchUsers(){
-    try{
-        const response= await axios.get('/api/user-API/'); //"TODO:"Call users iwth a queryAPI and use a cicle to collect data ${id}
-        console.log(response.data);
-        setUserList(response.data.postgresUsers);
-        }   
-    catch(error){
-            console.log('Error fetching users:', error);
-        } 
-    finally{
-            setLoading(true);
-        }
-    };
-    fetchUsers();
-}, [])
-
-console.log('userList:', userList)
-console.log(typeof userList)
+console.log('userList:', users)
 
 const userLevelBadge=(role)=>{
     switch (role) {
@@ -70,14 +54,13 @@ const handleUserClick=(userId)=>{
     router.push(`/log/admin/users/${userId}`);
 }
 const loadingStyle={
-    //Lets put some animaition (spinner) for the loading page
     color: 'grey',
     fontSize: '20px',
     fontWeight: 'bold'
   }
 
 const table =()=> {
-    if(userList.length > 0){
+    if(users.length > 0){
         return(
     <div>
       <table className='rounded-lg flex flex-col items-center justify-start'>
@@ -91,7 +74,7 @@ const table =()=> {
         </tr>
         </thead>
         <tbody className='m-2 container flex bg-white flex-col gap-3'>
-            {userList.map((user)=>{
+            {users.map((user)=>{
             return (<tr key={user.id}
                         onClick={()=>handleUserClick(user.id)}
                         className={`border border-2 m-0 bg-white shadow-lg 
@@ -126,12 +109,12 @@ const table =()=> {
 
 
     return (<div>
-        {loading ? table(): <div className='flex flex-col items-center gap-3 justify-center'>
+        {status === 'loading' ? <div className='flex flex-col items-center gap-3 justify-center'>
             <p style={loadingStyle}>Loading users...</p>
             <Skeleton animation="wave" width={300}/>
             <Skeleton animation="wave" width={200} />
             <Skeleton animation="wave" width={300} />
-        </div> }
+        </div> : table() }
     </div>)
 
 }

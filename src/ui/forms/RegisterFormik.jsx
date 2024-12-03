@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 //import { seedUsers } from '../../services/route';
 import axios from 'axios';
-import { Button, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 import { authenticate } from '../../services/signIn.service';
 
 //models
@@ -12,9 +12,6 @@ import { authenticate } from '../../services/signIn.service';
 //import { role } from '../../../models/roles.enum';
 
 export default function RegisterPage() {
-
-
-
     const initialValues = {
         username: '',
         email:'',
@@ -104,6 +101,7 @@ export default function RegisterPage() {
         <div>
             <label htmlFor="email"></label>
             <Field
+                className='p-1 rounded-lg text-blue-500'
                 id="email"
                 name="email"
                 placeholder='email@domain.com'
@@ -115,8 +113,9 @@ export default function RegisterPage() {
                 <div  className='text-red-500'><ErrorMessage name="email"></ErrorMessage></div>
             )}
         <div>
-            <label htmlFor="password">Write your password</label>
+            <label htmlFor="password"></label>
             <Field
+                className='p-1 rounded-lg text-blue-500'
                 id="password"
                 name="password"
                 placeholder="password"
@@ -129,6 +128,7 @@ export default function RegisterPage() {
         <div>
             <label htmlFor="confirm"></label>
             <Field
+                className='p-1 rounded-lg bg-sky-100 text-blue-500'
                 id="confirm"
                 name="confirm"
                 placeholder="Confirm your password"
@@ -138,7 +138,7 @@ export default function RegisterPage() {
             {errors.confirm && touched.confirm && (
                 <div><ErrorMessage name="confirm"></ErrorMessage></div>
             )}
-        <div>
+        <div className='flex flex-row gap-2'>
             <label htmlFor='terms'> I accept the terms and conditions</label>
             <Field type='checkbox' name='terms' id='terms'></Field>
         </div>

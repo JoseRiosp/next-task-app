@@ -3,32 +3,21 @@ import axios from "axios";
 import { use, useEffect, useState } from "react";
 import { Skeleton } from "@mui/material";
 import DetailUserPage from "../../../../../ui/components/DetailUserPage";
+import { useDispatch, useSelector } from "react-redux";
+import {selectUserById} from "../../../../../store/slices/userSlice"
 
 
 export default function UsersPage({params}) {
     //const [userParams, setUserParams] = useState()
-    const [loading, setLoading] = useState(true)
-    const [user, setUser] = useState({user:[]});
+    //const [loading, setLoading] = useState(true)
+    //const [user, setUser] = useState({user:[]});
     const resolvedParams =use(params); //Needed use of use(params)to await the params promise
     const userId=resolvedParams.id;
+    const dispatch = useDispatch();
+const status = useSelector((state)=> state.users.status);
+const user= useSelector((state)=>selectUserById(state,userId));
 
-    useEffect(() => {
-        async function getUser(){
-            if (!userId) return;
-        try{
-            const response = await axios.get(`/api/user-API?id=${userId}`)
-            setUser(response.data.user);
-            console.log(user)
-        } catch(error){
-            console.log('Error getting user', error)
-        } finally {
-            setLoading(false);
-        }
-    }
-    getUser();
-        }, [userId])
-    
-    if(loading){
+    if(status === 'loading'){
         return (<div className='flex flex-col items-center gap-3 justify-center'>
             <p className='text-gray-400 font-bold text-5'>Loading user info details...</p>
             <Skeleton animation="wave" width={300}/>
@@ -36,7 +25,7 @@ export default function UsersPage({params}) {
             <Skeleton animation="wave" width={300} />
         </div>)
     }
-    console.log(user)
+    console.log('user:',user)
     return (
     <div className='flex flex-col gap-3 h-full'>
         <div className="flex flex-row gap-3">
