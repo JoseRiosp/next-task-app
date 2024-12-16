@@ -1,8 +1,8 @@
 'use client'
 import { SessionProvider } from "next-auth/react";
-import TaskListComponent from "../../../ui/components/TaskListComponent";
-import './../../../styles/custom-bootstrap.scss';
-import 'bootstrap-icons/font/bootstrap-icons.css'
+//import '../../../../styles/custom-bootstrap.scss';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import TaskListComponent from '../../../../ui/components/TaskListComponent'
 
 export default function TasksPage() {
     return (

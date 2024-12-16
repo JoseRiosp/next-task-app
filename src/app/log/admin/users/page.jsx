@@ -1,19 +1,18 @@
 'use client'
 import { Chip, Skeleton } from '@mui/material';
-import axios from 'axios';
-import { useSession } from 'next-auth/react'
-import { permanentRedirect, redirect, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
-import { auth } from '../../../../../auth';
+//import axios from 'axios';
+//import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation';
+//import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import {getUsers} from '../../../../store/slices/userSlice'
+import { motion } from 'framer-motion';
 
 export default function UsersPage() {
     //const {data: session} = useSession();
     //const [userList, setUserList] = useState({postgresUsers:[]});
     //const [loading, setLoading] = useState(false);
     const router = useRouter();
-    const {users, status, error} = useSelector((state)=>state.users);
+    const {users, status, } = useSelector((state)=>state.users);
 
 console.log('userList:', users)
 
@@ -75,11 +74,13 @@ const table =()=> {
         </thead>
         <tbody className='m-2 container flex bg-white flex-col gap-3'>
             {users.map((user)=>{
-            return (<tr key={user.id}
+            return (<motion.tr key={user.id}
+                        whileHover={{scale:1.1}}
+                        transition={{type:'spring'}}
                         onClick={()=>handleUserClick(user.id)}
                         className={`border border-2 m-0 bg-white shadow-lg 
                         rounded-lg pt-2 pb-2 flex items-center flex-grow 
-                        hover:bg-sky-200
+                        hover:bg-sky-200 overflow-visible hover:z-10
                         hover:cursor-pointer`}>
                 <td className="flex-grow justify-center items-center flex" >
                     <span>{user.id}</span>
@@ -96,7 +97,7 @@ const table =()=> {
                 <td className="flex w-3 leading-2 flex-grow">
                     <span>{user.createdAt}</span>
                 </td>
-            </tr>)
+            </motion.tr>)
             })}
         </tbody>
       </table>
